@@ -1,12 +1,14 @@
 # PSoC™ 6 MQTT Client with Sensors
 
-![alt text](docs/assets/ps5-mqtt-sensors-cover.png)
+![Cover Image](docs/assets/ps5-mqtt-sensors-cover.png)
 
-
-A ModusToolbox™ application for the Infineon **CY8CKIT-062S2-AI** (PSoC™ 6 AI Evaluation Board) that connects to Wi‑Fi and acts as an MQTT sensor node. It publishes **IMU** (accelerometer + gyroscope) and **magnetometer** data for motion/orientation/heading use cases, plus optional ENV telemetry, to configurable topics.
 ---
 
-![alt text](docs/assets/psoc6-edited.jpg)
+A ModusToolbox™ application for the Infineon **CY8CKIT-062S2-AI** (PSoC™ 6 AI Evaluation Board) that connects to Wi‑Fi and acts as an MQTT sensor node. It publishes **IMU** (accelerometer + gyroscope) and **magnetometer** data for motion/orientation/heading use cases, plus optional ENV telemetry, to configurable topics.
+
+---
+
+![Board Image](docs/assets/psoc6-edited.jpg)
 
 ---
 
