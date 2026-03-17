@@ -1,17 +1,24 @@
 # PSoC™ 6 MQTT Client with Sensors
 
-A ModusToolbox™ application for Infineon **CY8CKIT-062S2-AI** PSoC™ 6 AI Evaluation Board. It runs a Wi‑Fi MQTT client that publishes environment (ENV), IMU, and magnetometer data to configurable topics, and subscribes to an LED control topic.
+![alt text](docs/assets/ps5-mqtt-sensors-cover.png)
+
+
+A ModusToolbox™ application for the Infineon **CY8CKIT-062S2-AI** (PSoC™ 6 AI Evaluation Board) that connects to Wi‑Fi and acts as an MQTT sensor node. It publishes **IMU** (accelerometer + gyroscope) and **magnetometer** data for motion/orientation/heading use cases, plus optional ENV telemetry, to configurable topics.
+---
+
+![alt text](docs/assets/psoc6-edited.jpg)
 
 ---
 
+
 ## Features
 
-- **Wi‑Fi + MQTT** — Connects to a configurable broker (default: `test.mosquitto.org`) over Wi‑Fi (WPA2).
+- **Wi‑Fi + MQTT** — Connects to a configurable broker (default: `broker.emqx.io`) over Wi‑Fi (WPA2).
 - **Sensor publishing** — Periodically publishes on separate MQTT topics:
   - **ENV** — Temperature (real from BMI270 when available, else simulated) and simulated humidity.
   - **IMU** — Accelerometer and gyroscope (BMI270 or ICM-20948).
   - **MAG** — Magnetometer (BMM350 or BMM150).
-- **LED control** — Subscribes to a topic and drives the user LED from received messages (e.g. TURN ON / TURN OFF).
+- **Auto-detect sensors** — Probes common I2C addresses and supports BMI270/ICM-20948 and BMM350/BMM150.
 - **Shared I2C** — Dedicated `i2c_driver` with mutex for thread-safe access by IMU and magnetometer.
 - **Modular drivers** — `imu_driver`, `mag_driver`, `sim_driver` (simulated env), and optional real temperature from BMI270.
 
@@ -69,7 +76,7 @@ Edit your network credentials here (replace the placeholder strings):
 | `MQTT_ENV_TOPIC` | `env` | Temperature/humidity |
 | `MQTT_IMU_TOPIC` | `imu` | Accelerometer/gyroscope |
 | `MQTT_MAG_TOPIC` | `mag` | Magnetometer |
-| `MQTT_PUB_TOPIC` / `MQTT_SUB_TOPIC` | `ledstatus` | LED control publish/subscribe |
+| `MQTT_PUB_TOPIC` / `MQTT_SUB_TOPIC` | `ledstatus` | Demo control publish/subscribe topic |
 
 Alternative public brokers (uncomment one in `configs/mqtt_client_config.h`):
 
@@ -150,8 +157,6 @@ Publish interval is 1 s (see `SENSOR_PUBLISH_INTERVAL_MS` in `source/sensors/sen
 - **ENV**: Temperature in °C (from BMI270 when available, else simulated); humidity in % (simulated).
 - **IMU**: Accelerometer in m/s², gyroscope in rad/s.
 - **MAG**: Magnetometer in µT (microtesla).
-
-Subscribe to `ledstatus` and publish `TURN ON` / `TURN OFF` to control the user LED.
 
 ---
 
