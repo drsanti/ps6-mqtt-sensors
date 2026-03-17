@@ -197,11 +197,6 @@ Notes:
 
 ---
 
-## License
-
-You can add your preferred license (e.g. MIT, Apache-2.0) here. If unstated, the code is provided as-is for use with Infineon ModusToolbox and evaluation boards.
-
----
 
 ## References
 
