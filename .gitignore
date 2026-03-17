@@ -77,6 +77,7 @@ openocd.tcl
 
 # Log files
 *.log
+.ninja_log
 
 # IAR backup files
 Backup*
@@ -92,6 +93,9 @@ Backup*
 
 # Trash files
 *.bak
+
+# Local tool caches / generated folders
+.cache/
 
 
 # Keil uVision files

@@ -1,27 +1,18 @@
-################################################################################
-# \file Makefile
-# \version 1.0
-#
-# \brief
-# Top-level application make file.
-#
-################################################################################
-# \copyright
-# Copyright 2018-2025, Cypress Semiconductor Corporation (an Infineon company)
-# SPDX-License-Identifier: Apache-2.0
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-################################################################################
+#/*******************************************************************************
+# * File Name 	: Makefile
+# *
+# * Description 	: Top-level application make file.
+# *
+# * Author      	: Asst.Prof.Santi Nuratch, Ph.D
+# *                INC AUTOMATION
+# *                Department of Control Systems and Instrumentation Engineering
+# *				  King Mongkut's University of Technology Thonburi (KMUTT)
+# *
+# * Version     	: 1.0
+# * Date         : 17 March 2026
+# * Target       : CY8CKIT-062S2-AI PSoC™ 6 AI Evaluation Board
+# *
+# *******************************************************************************/
 
 
 ################################################################################
@@ -100,11 +91,13 @@ DISABLE_COMPONENTS=
 # tree for source code and builds it. The SOURCES variable can be used to
 # manually add source code to the build process from a location not searched
 # by default, or otherwise not found by the build system.
-SOURCES=
+SOURCES=./source/sensors/sensor_task.c ./source/sensors/sim_driver.c ./source/sensors/i2c_driver.c ./source/sensors/imu_driver.c ./source/sensors/mag_driver.c ./source/led_control_task.c ./source/led_sensor_task.c
+SOURCES+= $(CY_GETLIBS_SHARED_PATH)$(CY_GETLIBS_SHARED_NAME)/BMM350_SensorAPI/v1.4.0/bmm350.c
 
 # Like SOURCES, but for include directories. Value should be paths to
 # directories (without a leading -I).
-INCLUDES=./configs ./configs/COMPONENT_$(CORE)
+INCLUDES=./configs ./configs/COMPONENT_$(CORE) ./source/sensors
+INCLUDES+= $(CY_GETLIBS_SHARED_PATH)$(CY_GETLIBS_SHARED_NAME)/BMM350_SensorAPI/v1.4.0
 
 # Custom configuration of mbedtls library.
 MBEDTLSFLAGS = MBEDTLS_USER_CONFIG_FILE='"mbedtls_user_config.h"'
