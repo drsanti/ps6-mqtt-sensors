@@ -1,5 +1,10 @@
 # PSoC™ 6 MQTT Client with Sensors
 
+
+[![GitHub last commit](https://img.shields.io/github/last-commit/drsanti/ps6-mqtt-sensors?style=for-the-badge)](https://github.com/drsanti/ps6-mqtt-sensors/commits/main)
+[![Platform](https://img.shields.io/badge/platform-PSoC6%20CY8CKIT--062S2--AI-00979D?style=for-the-badge)](https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-062s2-ai-psoc-6-ai-evaluation-board/)
+[![Toolchain](https://img.shields.io/badge/ModusToolbox-3.x-005BBB?style=for-the-badge)](https://infineon.github.io/mtb-super-manifest/mtb_user_guide.html)
+
 ![Cover Image](docs/assets/ps5-mqtt-sensors-cover.png)
 
 ---
@@ -11,6 +16,31 @@ A ModusToolbox™ application for the Infineon **CY8CKIT-062S2-AI** (PSoC™ 6 A
 ![Board Image](docs/assets/psoc6-edited.jpg)
 
 ---
+
+## Table of contents
+
+- [PSoC™ 6 MQTT Client with Sensors](#psoc-6-mqtt-client-with-sensors)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+  - [Hardware](#hardware)
+  - [Prerequisites](#prerequisites)
+  - [Quick start](#quick-start)
+  - [Get the project](#get-the-project)
+    - [Option 1: Clone with Git](#option-1-clone-with-git)
+    - [Option 2: Download ZIP](#option-2-download-zip)
+  - [Configuration](#configuration)
+    - [Wi‑Fi (`configs/wifi_config.h`)](#wifi-configswifi_configh)
+    - [MQTT (`configs/mqtt_client_config.h`)](#mqtt-configsmqtt_client_configh)
+  - [Build and program](#build-and-program)
+    - [Windows](#windows)
+    - [macOS](#macos)
+  - [Troubleshooting](#troubleshooting)
+  - [Project structure](#project-structure)
+  - [MQTT topics and payloads](#mqtt-topics-and-payloads)
+  - [Understanding IMU and MAG values](#understanding-imu-and-mag-values)
+    - [IMU (`imu` topic)](#imu-imu-topic)
+    - [MAG (`mag` topic)](#mag-mag-topic)
+  - [References](#references)
 
 
 ## Features
@@ -42,13 +72,39 @@ Schematic and block diagram links can be added under a `docs/` folder (e.g. `doc
 ## Prerequisites
 
 - **ModusToolbox™** 3.x (with ModusToolbox IDE or standalone tools).
-- **getlibs** — Run once to fetch Wi‑Fi and other dependent libraries:
-
-  ```bash
-  make getlibs
-  ```
-
 - **Wi‑Fi credentials** — Set your network in `configs/wifi_config.h` (see [Configuration](#configuration)).
+
+---
+
+## Quick start
+
+For first-time setup from a fresh clone:
+
+```bash
+make getlibs
+make vscode
+make build
+make program
+```
+
+Then open `ps6-mqtt-sensors.code-workspace` in VS Code.
+
+---
+
+## Get the project
+
+You can either clone this repository or download it as a ZIP from GitHub.
+
+### Option 1: Clone with Git
+
+```bash
+git clone https://github.com/drsanti/ps6-mqtt-sensors.git
+cd ps6-mqtt-sensors
+```
+
+### Option 2: Download ZIP
+
+Open https://github.com/drsanti/ps6-mqtt-sensors, select **Code → Download ZIP**, then extract it and open the project folder.
 
 ---
 
@@ -90,16 +146,82 @@ Alternative public brokers (uncomment one in `configs/mqtt_client_config.h`):
 
 ## Build and program
 
+Before running the commands below, add ModusToolbox `modus-shell` to your `PATH`.
+
+- **Temporary setup** applies only to the current terminal session.
+- **Permanent setup** is loaded automatically in future terminals.
+
+### Windows
+
+Example path:
+
+`C:\Users\<your-username>\ModusToolbox\tools_3.7\modus-shell\bin`
+
+Temporary (PowerShell, current terminal only):
+
+```powershell
+$env:Path += ";$env:USERPROFILE\ModusToolbox\tools_3.7\modus-shell\bin"
+```
+
+Temporary (Command Prompt, current terminal only):
+
+```bat
+set PATH=%PATH%;%USERPROFILE%\ModusToolbox\tools_3.7\modus-shell\bin
+```
+
+Permanent (recommended):
+
+1. Open **System Properties → Advanced → Environment Variables**.
+2. Under **User variables**, select `Path` and click **Edit**.
+3. Add `%USERPROFILE%\ModusToolbox\tools_3.7\modus-shell\bin`.
+4. Open a new terminal to use the updated `PATH`.
+
+### macOS
+
+Temporary (current terminal only):
+
+```bash
+export PATH="/Applications/ModusToolbox/tools_3.7/modus-shell/bin:$PATH"
+```
+
+Permanent (recommended): add the same line to your shell startup file:
+
+- zsh users: `~/.zshrc`
+- bash users: `~/.bash_profile` (or `~/.bashrc`)
+- If the file does not exist yet, create it first.
+
+```bash
+export PATH="/Applications/ModusToolbox/tools_3.7/modus-shell/bin:$PATH"
+```
+
+After editing the startup file, either open a new terminal or run `source` once (for example, `source ~/.zshrc`).
+
+If ModusToolbox is installed in a different location or version folder, update the path accordingly.
+
 From the project root:
 
 ```bash
-# Fetch libraries (first time only)
+# First-time setup (or after library/tool updates)
 make getlibs
+make vscode
 
 # Build
 make build
 
 # Program the board (KitProg3)
+make program
+```
+
+After running `make program`, open a serial terminal on the board's USB UART port to verify boot logs, Wi-Fi connection, and MQTT publish output.
+
+Use `make vscode` to generate or refresh VS Code project files used by ModusToolbox.
+
+After running `make vscode`, open `ps6-mqtt-sensors.code-workspace` in VS Code.
+
+For day-to-day development, you typically only need:
+
+```bash
+make build
 make program
 ```
 
@@ -117,6 +239,15 @@ If `make program` fails with a CMSIS-DAP or “unable to find a matching CMSIS-D
 2. Put the board in the correct link (e.g. “KitProg3 CMSIS-DAP” if your board has a link selector).
 3. Try another USB port or cable; close other tools that might be using the probe.
 4. See [ModusToolbox programming documentation](https://infineon.github.io/mtb-super-manifest/mtb_user_guide.html#programming-and-debugging) for your exact kit.
+
+---
+
+## Troubleshooting
+
+- **`make` command not found**: confirm ModusToolbox `modus-shell` is in your `PATH` (see Build and program).
+- **`make program` cannot find CMSIS-DAP**: verify USB cable, board connection mode, and that no other debug tool is holding the probe.
+- **Cannot connect to MQTT broker**: check Wi‑Fi SSID/password in `configs/wifi_config.h` and broker settings in `configs/mqtt_client_config.h`.
+- **No sensor values**: confirm the board and sensor configuration match your target kit and I2C wiring.
 
 ---
 
@@ -203,3 +334,4 @@ Notes:
 - [CY8CKIT-062S2-AI product page](https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-062s2-ai-psoc-6-ai-evaluation-board/)
 - [ModusToolbox user guide](https://infineon.github.io/mtb-super-manifest/mtb_user_guide.html)
 - [PSoC 6 technical reference](https://infineon.github.io/mtb-pdl-cat1/pdl_api_reference_manual/html/index.html)
+
